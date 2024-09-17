@@ -10,6 +10,7 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
+  let cartQuantity = 0;
 
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
@@ -20,6 +21,8 @@ export function renderOrderSummary() {
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
     const dateString = deliveryDate.format("dddd, MMMM D");
+
+    cartQuantity += cartItem.quantity;
 
     cartSummaryHTML += `
       <div class="cart-item-container 
@@ -100,6 +103,7 @@ export function renderOrderSummary() {
   }
 
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
+  document.querySelector(".js-return-to-home-link").innerHTML = cartQuantity;
 
   document.querySelectorAll(".js-delete-link").forEach((link) => {
     link.addEventListener("click", () => {
