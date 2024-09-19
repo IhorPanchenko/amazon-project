@@ -15,7 +15,6 @@ function updateCartQuantity() {
 export function renderPaymentSummary() {
   let productPriceCents = 0;
   let shippingPriceCents = 0;
-  // let cartQuantity = calculateCartQuantity();
 
   cart.forEach((cartItem) => {
     const product = getProduct(cartItem.productId);
@@ -92,5 +91,6 @@ export function renderPaymentSummary() {
 
       window.location.href = "orders.html";
     });
+
   updateCartQuantity();
 }
