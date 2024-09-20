@@ -1,4 +1,4 @@
-import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
+import { cart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productsHTML = "";
@@ -60,8 +60,7 @@ products.forEach((product) => {
 });
 
 function updateCartQuantity() {
-  const cartQuantity = calculateCartQuantity();
-
+  const cartQuantity = cart.calculateCartQuantity();
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
 
@@ -93,7 +92,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 
     addedMessageTimeoutId = timeoutId;
 
-    addToCart(productId, productQuantity);
+    cart.addToCart(productId, productQuantity);
     updateCartQuantity();
   });
 });
