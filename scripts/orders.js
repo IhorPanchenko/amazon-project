@@ -1,4 +1,5 @@
-import { orders, buyAgain } from "../data/orders.js";
+import { orders } from "../data/orders.js";
+import { cart } from "../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
@@ -80,7 +81,9 @@ function loadOrderPage() {
 
   document.querySelectorAll(".js-buy-again").forEach((button) => {
     button.addEventListener("click", () => {
-      buyAgain(button.dataset.productId);
+      cart.addToCart(button.dataset.productId, 1);
+
+      // buyAgain(button.dataset.productId);
 
       button.innerHTML = "Added";
       setTimeout(() => {
@@ -88,6 +91,7 @@ function loadOrderPage() {
           <img class="buy-again-icon" src="images/icons/buy-again.png">
           <span class="buy-again-message">Buy it again</span>
         `;
+        loadOrderPage();
       }, 1000);
     });
   });
