@@ -6,6 +6,9 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 function loadOrderPage() {
   let ordersHTML = "";
+  const cartQuantity = cart.calculateCartQuantity();
+
+  document.querySelector(".js-cart-quantity").innerHTML = `${cartQuantity}`;
 
   orders.forEach((order) => {
     const orderTimeString = dayjs(order.orderTime).format("MMMM D");
@@ -65,7 +68,7 @@ function loadOrderPage() {
         </div>
 
         <div class="product-actions">
-          <a href="tracking.html">
+          <a href="tracking.html?orderId=${order.id}&productId=${product.id}">
             <button class="track-package-button button-secondary">
               Track package
             </button>
@@ -82,8 +85,6 @@ function loadOrderPage() {
   document.querySelectorAll(".js-buy-again").forEach((button) => {
     button.addEventListener("click", () => {
       cart.addToCart(button.dataset.productId, 1);
-
-      // buyAgain(button.dataset.productId);
 
       button.innerHTML = "Added";
       setTimeout(() => {
