@@ -9,13 +9,10 @@ function loadTrackingPage() {
 
   const order = getOrder(orderId);
   const product = getProduct(productId);
-  let productDetails;
 
-  order.products.forEach((details) => {
-    if (details.productId === product.id) {
-      productDetails = details;
-    }
-  });
+  const productDetails = order.products.find(
+    (details) => details.productId === productId
+  );
 
   const today = dayjs();
   const orderTime = dayjs(order.overTime);
