@@ -110,6 +110,11 @@ export class Cart {
     matchingItem.quantity = newQuantity;
     this.saveToStorage();
   }
+
+  resetCart() {
+    this.cartItems = [];
+    this.saveToStorage();
+  }
 }
 
 export const cart = new Cart("cart");
