@@ -174,9 +174,6 @@ export function renderOrderSummary() {
 
   function handleDeliveryOptionClick(option) {
     const { productId, deliveryOptionId } = option.dataset;
-    console.log(
-      `Updating delivery option for product ${productId} to ${deliveryOptionId}`
-    );
     cart.updateDeliveryOption(productId, deliveryOptionId);
     renderOrderSummary();
     renderPaymentSummary();

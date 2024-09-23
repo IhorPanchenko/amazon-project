@@ -12,6 +12,13 @@ function updateCartQuantity() {
 
 export function renderPaymentSummary() {
   const totals = calculateTotalAmount(cart);
+  const {
+    productPriceCents,
+    shippingPriceCents,
+    totalBeforeTaxCents,
+    taxCents,
+    totalCents,
+  } = totals;
 
   const paymentSummaryHMTL = `
     <div class="payment-summary-title">Order Summary</div>
@@ -19,35 +26,35 @@ export function renderPaymentSummary() {
     <div class="payment-summary-row">
       <div class="js-order-item-quantity">Items ():</div>
       <div class="payment-summary-money">
-        $${formatCurrency(totals.productPriceCents)}
+        $${formatCurrency(productPriceCents)}
       </div>
     </div>
 
     <div class="payment-summary-row">
       <div>Shipping &amp; handling:</div>
       <div class="payment-summary-money">
-        $${formatCurrency(totals.shippingPriceCents)}
+        $${formatCurrency(shippingPriceCents)}
       </div>
     </div>
 
     <div class="payment-summary-row subtotal-row">
       <div>Total before tax:</div>
       <div class="payment-summary-money">
-        $${formatCurrency(totals.totalBeforeTaxCents)}
+        $${formatCurrency(totalBeforeTaxCents)}
       </div>
     </div>
 
     <div class="payment-summary-row">
       <div>Estimated tax (10%):</div>
       <div class="payment-summary-money">
-        $${formatCurrency(totals.taxCents)}
+        $${formatCurrency(taxCents)}
       </div>
     </div>
 
     <div class="payment-summary-row total-row">
       <div>Order total:</div>
       <div class="payment-summary-money">
-        $${formatCurrency(totals.totalCents)}
+        $${formatCurrency(totalCents)}
       </div>
     </div>
 
