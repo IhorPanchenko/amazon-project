@@ -1,24 +1,34 @@
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 
+const TAX_RATE = 0.1;
+
 export function formatCurrency(priceCents) {
+  if (typeof priceCents !== "number") {
+    throw new Error("Invalid price value");
+  }
   return (Math.round(priceCents) / 100).toFixed(2);
 }
 
 export function calculateTotalAmount(cart) {
-  let productPriceCents = 0;
-  let shippingPriceCents = 0;
+  if (!cart || !Array.isArray(cart.cartItems)) {
+    throw new Error("Invalid cart data");
+  }
 
-  cart.cartItems.forEach((cartItem) => {
-    const product = getProduct(cartItem.productId);
-    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
+  const { productPriceCents, shippingPriceCents } = cart.cartItems.reduce(
+    (totals, cartItem) => {
+      const product = getProduct(cartItem.productId);
+      const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
 
-    productPriceCents += product.priceCents * cartItem.quantity;
-    shippingPriceCents += deliveryOption.priceCents;
-  });
+      totals.productPriceCents += product.priceCents * cartItem.quantity;
+      totals.shippingPriceCents += deliveryOption.priceCents;
+      return totals;
+    },
+    { productPriceCents: 0, shippingPriceCents: 0 }
+  );
 
   const totalBeforeTaxCents = productPriceCents + shippingPriceCents;
-  const taxCents = totalBeforeTaxCents * 0.1;
+  const taxCents = totalBeforeTaxCents * TAX_RATE;
   const totalCents = totalBeforeTaxCents + taxCents;
 
   return {
