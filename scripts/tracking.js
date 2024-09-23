@@ -17,6 +17,12 @@ function loadTrackingPage() {
     }
   });
 
+  const today = dayjs();
+  const orderTime = dayjs(order.overTime);
+  const deliveryTime = dayjs(productDetails.estimatedDeliveryTime);
+  const deliveryProgress =
+    ((today - orderTime) / (deliveryTime - orderTime)) * 100;
+
   const trackingHTML = `
     <a class="back-to-orders-link link-primary" href="orders.html">
       View all orders
@@ -40,13 +46,27 @@ function loadTrackingPage() {
     />
 
     <div class="progress-labels-container">
-      <div class="progress-label">Preparing</div>
-      <div class="progress-label current-status">Shipped</div>
-      <div class="progress-label">Delivered</div>
+      <div class="progress-label ${
+        deliveryProgress < 50 ? "current-status" : ""
+      }">
+        Preparing
+      </div>
+
+      <div class="progress-label ${
+        deliveryProgress >= 50 && deliveryProgress < 100 ? "current-status" : ""
+      }"">
+        Shipped
+      </div>
+
+      <div class="progress-label ${
+        deliveryProgress >= 100 ? "current-status" : ""
+      }">
+        Delivered
+      </div>
     </div>
 
     <div class="progress-bar-container">
-      <div class="progress-bar"></div>
+      <div class="progress-bar" style="width: ${deliveryProgress}%;"></div>
     </div>
   `;
 
