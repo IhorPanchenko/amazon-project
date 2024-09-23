@@ -119,14 +119,17 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   });
 });
 
-document.querySelector(".js-search-button").addEventListener("click", () => {
+function handleSearch() {
   const search = document.querySelector(".js-search-bar").value;
   window.location.href = `amazon.html?search=${search}`;
-});
+}
+
+document
+  .querySelector(".js-search-button")
+  .addEventListener("click", handleSearch);
 
 document.querySelector(".js-search-bar").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    const searchTerm = document.querySelector(".js-search-bar").value;
-    window.location.href = `amazon.html?search=${searchTerm}`;
+    handleSearch();
   }
 });
