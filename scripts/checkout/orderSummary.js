@@ -55,6 +55,7 @@ export function renderOrderSummary() {
 
               <input class="quantity-input 
                 js-quantity-input-${matchingProduct.id}"
+                name="quantity-${matchingProduct.id}"
               >
 
               <span class="save-quantity-link 

@@ -51,7 +51,8 @@ filteredProducts.forEach((product) => {
       <div class="product-price">${product.getPrice()}</div>
 
       <div class="product-quantity-container">
-        <select class="js-quantity-selector-${product.id}">
+        <select class="js-quantity-selector-${product.id}" 
+        name="quantity-${product.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
