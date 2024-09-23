@@ -1,15 +1,18 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 
 export function getProduct(productId) {
-  let matchingProduct;
+  return products.find((product) => product.id === productId) || null;
+}
 
-  products.forEach((product) => {
-    if (product.id === productId) {
-      matchingProduct = product;
-    }
-  });
-
-  return matchingProduct;
+function createProduct(productDetails) {
+  switch (productDetails.type) {
+    case "clothing":
+      return new Clothing(productDetails);
+    case "appliance":
+      return new Appliance(productDetails);
+    default:
+      return new Product(productDetails);
+  }
 }
 
 class Product {
@@ -560,11 +563,4 @@ export const products = [
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
-].map((productDetails) => {
-  if (productDetails.type === "clothing") {
-    return new Clothing(productDetails);
-  } else if (productDetails.type === "appliance") {
-    return new Appliance(productDetails);
-  }
-  return new Product(productDetails);
-});
+].map(createProduct);

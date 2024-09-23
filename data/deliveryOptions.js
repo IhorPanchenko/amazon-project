@@ -19,35 +19,24 @@ export const deliveryOptions = [
 ];
 
 export function getDeliveryOption(deliveryOptionId) {
-  let deliveryOption;
-
-  deliveryOptions.forEach((option) => {
-    if (option.id === deliveryOptionId) {
-      deliveryOption = option;
-    }
-  });
-
-  return deliveryOption || deliveryOptions[0];
+  return (
+    deliveryOptions.find((option) => option.id === deliveryOptionId) ||
+    deliveryOptions[0]
+  );
 }
 
 export function validDeliveryOption(deliveryOptionId) {
-  let found = false;
-
-  deliveryOptions.forEach((option) => {
-    if (option.id === deliveryOptionId) {
-      found = true;
-    }
-  });
-
-  return found;
+  return deliveryOptions.some((option) => option.id === deliveryOptionId);
 }
 
 function isWeekend(date) {
-  const dayOfWeek = date.format("dddd");
-  return dayOfWeek === "Saturday" || dayOfWeek === "Sunday";
+  const dayOfWeek = date.day();
+  return dayOfWeek === 0 || dayOfWeek === 6;
 }
 
 export function calculateDeliveryDate(deliveryOption) {
+  if (!deliveryOption) return;
+
   let remainingDays = deliveryOption.deliveryDays;
   let deliveryDate = dayjs();
 
