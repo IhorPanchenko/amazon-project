@@ -40,62 +40,119 @@ function loadOrderPage() {
     `;
   });
 
-  function productsListHTML(order) {
-    let productsListHTML = "";
-
-    order.products.forEach((productDetails) => {
-      const product = getProduct(productDetails.productId);
-
-      productsListHTML += `
-        <div class="product-image-container">
-          <img src="${product.image}"/>
-        </div>
-
-        <div class="product-details">
-          <div class="product-name">${product.name}</div>
-          <div class="product-delivery-date">Arriving on: 
-            ${dayjs(productDetails.estimatedDeliveryTime).format("MMMM D")}
-          </div>
-          <div class="product-quantity">Quantity: ${
-            productDetails.quantity
-          }</div>
-          <button class="buy-again-button button-primary js-buy-again" 
-            data-product-id="${product.id}"}>
-
-            <img class="buy-again-icon" src="images/icons/buy-again.png" />
-            <span class="buy-again-message">Buy it again</span>
-          </button>
-        </div>
-
-        <div class="product-actions">
-          <a href="tracking.html?orderId=${order.id}&productId=${product.id}">
-            <button class="track-package-button button-secondary">
-              Track package
-            </button>
-          </a>
-        </div>
-      `;
-    });
-
-    return productsListHTML;
-  }
-
   document.querySelector(".js-orders-grid").innerHTML = ordersHTML;
+  setupButAgainButtons();
+  // function productsListHTML(order) {
+  //   let productsListHTML = "";
 
+  //   order.products.forEach((productDetails) => {
+  //     const product = getProduct(productDetails.productId);
+
+  //     productsListHTML += `
+  //       <div class="product-image-container">
+  //         <img src="${product.image}"/>
+  //       </div>
+
+  //       <div class="product-details">
+  //         <div class="product-name">${product.name}</div>
+  //         <div class="product-delivery-date">Arriving on:
+  //           ${dayjs(productDetails.estimatedDeliveryTime).format("MMMM D")}
+  //         </div>
+  //         <div class="product-quantity">Quantity: ${
+  //           productDetails.quantity
+  //         }</div>
+  //         <button class="buy-again-button button-primary js-buy-again"
+  //           data-product-id="${product.id}"}>
+
+  //           <img class="buy-again-icon" src="images/icons/buy-again.png" />
+  //           <span class="buy-again-message">Buy it again</span>
+  //         </button>
+  //       </div>
+
+  //       <div class="product-actions">
+  //         <a href="tracking.html?orderId=${order.id}&productId=${product.id}">
+  //           <button class="track-package-button button-secondary">
+  //             Track package
+  //           </button>
+  //         </a>
+  //       </div>
+  //     `;
+  //   });
+
+  //   return productsListHTML;
+  // }
+
+  // document.querySelector(".js-orders-grid").innerHTML = ordersHTML;
+
+  // document.querySelectorAll(".js-buy-again").forEach((button) => {
+  //   button.addEventListener("click", () => {
+  //     cart.addToCart(button.dataset.productId, 1);
+
+  //     button.innerHTML = "Added";
+  //     setTimeout(() => {
+  //       button.innerHTML = `
+  //         <img class="buy-again-icon" src="images/icons/buy-again.png">
+  //         <span class="buy-again-message">Buy it again</span>
+  //       `;
+  //       loadOrderPage();
+  //     }, 1000);
+  //   });
+  // });
+}
+
+function productsListHTML(order) {
+  return order.products
+    .map((productDetails) => {
+      const product = getProduct(productDetails.productId);
+      return `
+      <div class="product-image-container">
+        <img src="${product.image}"/>
+      </div>
+
+      <div class="product-details">
+        <div class="product-name">${product.name}</div>
+        <div class="product-delivery-date">Arriving on: 
+          ${dayjs(productDetails.estimatedDeliveryTime).format("MMMM D")}
+        </div>
+        <div class="product-quantity">Quantity: ${productDetails.quantity}</div>
+        <button class="buy-again-button button-primary js-buy-again" 
+          data-product-id="${product.id}"}>
+
+          <img class="buy-again-icon" src="images/icons/buy-again.png" />
+          <span class="buy-again-message">Buy it again</span>
+        </button>
+      </div>
+
+      <div class="product-actions">
+        <a href="tracking.html?orderId=${order.id}&productId=${product.id}">
+          <button class="track-package-button button-secondary">
+            Track package
+          </button>
+        </a>
+      </div>
+    `;
+    })
+    .join("");
+}
+
+function setupButAgainButtons() {
   document.querySelectorAll(".js-buy-again").forEach((button) => {
     button.addEventListener("click", () => {
-      cart.addToCart(button.dataset.productId, 1);
-
-      button.innerHTML = "Added";
-      setTimeout(() => {
-        button.innerHTML = `
-          <img class="buy-again-icon" src="images/icons/buy-again.png">
-          <span class="buy-again-message">Buy it again</span>
-        `;
-        loadOrderPage();
-      }, 1000);
+      const productId = button.dataset.productId;
+      cart.addToCart(productId, 1);
+      updateButtonAfterAdd(button);
     });
   });
 }
 
+function updateButtonAfterAdd(button) {
+  button.innerHTML = "Added";
+  setTimeout(() => {
+    button.innerHTML = `
+          <img class="buy-again-icon" src="images/icons/buy-again.png">
+          <span class="buy-again-message">Buy it again</span>
+        `;
+    loadOrderPage();
+  }, 1000);
+}
 loadOrderPage();
