@@ -17,20 +17,16 @@ export function renderOrderSummary() {
     .querySelector(".js-order-summary")
     .addEventListener("click", (event) => {
       const { target } = event;
+      const deliveryOption = target.closest(".js-delivery-option");
 
-      if (target.matches(".js-update-link")) {
-        console.log("1");
+      if (deliveryOption) {
+        handleDeliveryOptionClick(deliveryOption);
+      } else if (target.matches(".js-update-link")) {
         handleUpdateClick(target);
       } else if (target.matches(".js-save-link")) {
-        console.log("2");
         handleSaveClick(target);
       } else if (target.matches(".js-delete-link")) {
-        console.log("3");
         handleDeleteClick(target);
-      } else if (target.matches(".js-delivery-option")) {
-        console.log("clicked");
-
-        handleDeliveryOptionClick(target);
       }
     });
 
@@ -185,18 +181,6 @@ export function renderOrderSummary() {
     renderOrderSummary();
     renderPaymentSummary();
   }
-
-  // document.querySelectorAll(".js-delivery-option").forEach((option) => {
-  //   option.addEventListener("click", () => {
-  //     const { productId, deliveryOptionId } = option.dataset;
-  //     console.log(
-  //       `Updating delivery option for product ${productId} to ${deliveryOptionId}`
-  //     );
-  //     cart.updateDeliveryOption(productId, deliveryOptionId);
-  //     renderOrderSummary();
-  //     renderPaymentSummary();
-  //   });
-  // });
 
   function updateCartQuantity() {
     const cartQuantity = cart.calculateCartQuantity();

@@ -13,18 +13,22 @@ export class Cart {
     const storedItems = localStorage.getItem(this.#localStorageKey);
     this.cartItems = storedItems
       ? JSON.parse(storedItems)
-      : [
-          {
-            productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-            quantity: 2,
-            deliveryOptionId: "1",
-          },
-          {
-            productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-            quantity: 1,
-            deliveryOptionId: "2",
-          },
-        ];
+      : this.#getDefaultCartItems();
+  }
+
+  #getDefaultCartItems() {
+    return [
+      {
+        productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+        quantity: 2,
+        deliveryOptionId: "1",
+      },
+      {
+        productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+        quantity: 1,
+        deliveryOptionId: "2",
+      },
+    ];
   }
 
   saveToStorage() {
@@ -58,24 +62,14 @@ export class Cart {
   }
 
   updateDeliveryOption(productId, deliveryOptionId) {
-    let matchingItem;
+    const cartItem = this.cartItems.find(
+      (item) => item.productId === productId
+    );
 
-    this.cartItems.forEach((cartItem) => {
-      if (productId === cartItem.productId) {
-        matchingItem = cartItem;
-      }
-    });
-
-    if (!matchingItem) {
-      return;
+    if (cartItem && validDeliveryOption(deliveryOptionId)) {
+      cartItem.deliveryOptionId = deliveryOptionId;
+      this.saveToStorage();
     }
-
-    if (!validDeliveryOption(deliveryOptionId)) {
-      return;
-    }
-
-    matchingItem.deliveryOptionId = deliveryOptionId;
-    this.saveToStorage();
   }
 
   calculateCartQuantity() {
