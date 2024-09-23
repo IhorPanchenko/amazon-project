@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Checkout</title>
 
-    <!-- This code is needed for responsive design to work.
-      (Responsive design = make the website look good on
-      smaller screen sizes like a phone or a tablet). -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Load a font called Roboto from Google Fonts. -->
+    <!-- Load Roboto font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,23 +13,22 @@
       rel="stylesheet"
     />
 
-    <!-- Here are the CSS files for this page. -->
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles/shared/general.css" />
     <link rel="stylesheet" href="styles/pages/checkout/checkout-header.css" />
     <link rel="stylesheet" href="styles/pages/checkout/checkout.css" />
   </head>
   <body>
-    <div class="checkout-header js-checkout-header"></div>
+    <header class="checkout-header js-checkout-header"></header>
 
-    <div class="main">
-      <div class="page-title">Review your order</div>
+    <main class="main">
+      <h1 class="page-title">Review your order</h1>
 
       <div class="checkout-grid">
-        <div class="order-summary js-order-summary"></div>
-
-        <div class="payment-summary js-payment-summary"></div>
+        <section class="order-summary js-order-summary"></section>
+        <section class="payment-summary js-payment-summary"></section>
       </div>
-    </div>
+    </main>
 
     <script type="module" src="scripts/checkout.js"></script>
   </body>
